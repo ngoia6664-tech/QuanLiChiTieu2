@@ -142,6 +142,8 @@ button:active{transform:scale(.96)}
 .btns button{flex:1;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--bg);font-weight:600}
 .btns .save{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
 .btns .del{color:var(--bad);flex:0 0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px;box-shadow:0 1px 2px rgba(27,25,56,.05)}
+.card>b:first-child{font-size:16px}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:16px;background:var(--card);border:1px solid var(--line);margin-bottom:12px}
 .seg button{padding:10px;border-radius:12px;border:0;background:none;font-weight:700;color:var(--muted)}
 .seg button.on{color:var(--on-brand);background:var(--brand);box-shadow:0 8px 20px -10px var(--brand)}
@@ -150,12 +152,12 @@ button:active{transform:scale(.96)}
 .col .val{font-size:11px;font-weight:700;color:var(--brand);margin-bottom:4px;white-space:nowrap}
 .col .pillar{position:relative;width:100%;max-width:40px;border-radius:9px 9px 4px 4px;background:var(--brand-soft);overflow:hidden;min-height:4px;display:flex;align-items:flex-end;box-shadow:inset 0 0 0 1px var(--line)}
 .col .pillar i{display:block;width:100%;background:linear-gradient(180deg,#8F7BFF,var(--brand));box-shadow:0 0 14px -2px var(--brand)}
-.col.sel .pillar{box-shadow:inset 0 0 0 2px var(--brand),0 0 18px -4px var(--brand)}
-.col.sel .val{color:var(--ink)}
+.col.on .pillar{box-shadow:inset 0 0 0 2px var(--brand),0 0 18px -4px var(--brand)}
+.col.on .val{color:var(--ink)}
 .xl{display:flex;gap:6px;margin-top:6px}
 .xl div{flex:1;min-width:0;text-align:center;font-size:11px;color:var(--muted);line-height:1.25}
 .xl div b{display:block;color:var(--ink);font-size:12px}
-.xl div.sel b{color:var(--brand)}
+.xl div.on b{color:var(--brand)}
 .lg{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:10px}
 .lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .drow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
@@ -166,6 +168,28 @@ button:active{transform:scale(.96)}
 .cbar .t small{color:var(--muted)}
 .cbar .tr{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:4px;display:flex}
 .cbar .tr i{display:block;height:100%}
+.srow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;margin-top:10px;border-radius:16px;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.srow .m{flex:1;min-width:0}
+.srow .m b{display:block}
+.srow .m small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.srow .v{font-weight:700;font-size:16px;white-space:nowrap;text-align:right}
+.srow .v small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.srow .v.pos{color:var(--ok)}
+.srow .v.neg{color:var(--bad)}
+.srow.future{opacity:.55}
+.gtag{display:inline-block;margin-top:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px}
+.gtag.ok{background:var(--ok-soft);color:var(--ok)}
+.gtag.bad{background:var(--bad-soft);color:var(--bad)}
+.gtag.mute{background:var(--line);color:var(--muted)}
+.goalc{margin-top:12px;padding:16px;border-radius:18px;background:var(--card);border:1px solid var(--brand);box-shadow:0 0 26px -14px var(--brand)}
+.goalc .h{display:flex;align-items:center;gap:8px}
+.goalc .h b{flex:1;font-size:16px}
+.goalc .amt{font-size:22px;font-weight:800;margin-top:6px}
+.goalc .amt small{font-size:14px;color:var(--muted);font-weight:600}
+.goalc .gb{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:10px}
+.goalc .gb i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),#8F7BFF);box-shadow:0 0 12px var(--brand)}
+.goalc .eta{margin-top:10px;font-size:13.5px;color:var(--muted)}
+.goalc .eta b{color:var(--ink)}
 .banner{border-radius:12px;padding:10px 12px;font-size:13.5px;margin:0 0 12px}
 .banner.bad{background:var(--bad-soft);color:var(--bad)}
 .banner.warn{background:var(--warn-soft);color:var(--warn)}
@@ -383,7 +407,7 @@ function pct(a, b){ return b > 0 ? Math.min(100, a / b * 100) : 0; }
 var popId = null;
 var page = 'month', ovSel = null;
 function segHtml(){
-  return '<div class="seg"><button class="' + (page === 'month' ? 'on' : '') + '" data-act="page" data-p="month">📅 Theo tháng</button><button class="' + (page === 'overview' ? 'on' : '') + '" data-act="page" data-p="overview">📊 Tổng quan</button></div>';
+  return '<div class="seg"><button class="' + (page === 'month' ? 'on' : '') + '" data-act="page" data-p="month">📅 Theo tháng</button><button class="' + (page === 'overview' ? 'on' : '') + '" data-act="page" data-p="overview">💰 Tiết kiệm</button></div>';
 }
 function render(anim){
   if (page === 'overview') { document.getElementById('app').innerHTML = renderOverview(); return; }
@@ -478,8 +502,9 @@ function render(anim){
   if (anim && !reduce && t.income > 0) countUp(document.getElementById('bigNum'), left);
 }
 /* ===== TỔNG QUAN =====
-   Tổng số dư = Số dư ban đầu + Thu nhập các tháng ĐÃ TỚI (đến tháng hiện tại)
-                − Các khoản ĐÃ TRẢ (đã tick) ở mọi tháng.
+   Tổng số dư = Số dư ban đầu + Thu nhập − Các khoản ĐÃ TRẢ (đã tick),
+   chỉ tính các tháng ĐÃ TỚI (đến tháng hiện tại).
+   Tháng tương lai không ảnh hưởng số dư cho đến khi tới tháng đó.
    Khoản chưa tick chỉ là kế hoạch, chưa trừ vào số dư. */
 function monthTotalsOf(k){
   var m = S.months[k], t = 0, p = 0;
@@ -487,11 +512,11 @@ function monthTotalsOf(k){
   return { total: t, paid: p, unpaid: t - p, income: m.income || 0 };
 }
 function overall(){
-  var nowK = monthKeyNow(), r = { initial: S.initialBalance || 0, income: 0, paid: 0, unpaidNow: 0 };
+  var nowK = monthKeyNow(), r = { initial: S.initialBalance || 0, income: 0, paid: 0, unpaidNow: 0, futurePaid: 0 };
   sortedKeys().forEach(function(k){
     var x = monthTotalsOf(k);
-    if (k <= nowK) { r.income += x.income; r.unpaidNow += x.unpaid; }
-    r.paid += x.paid;
+    if (k <= nowK) { r.income += x.income; r.paid += x.paid; r.unpaidNow += x.unpaid; }
+    else r.futurePaid += x.paid;
   });
   r.balance = r.initial + r.income - r.paid;
   r.after = r.balance - r.unpaidNow;
@@ -502,47 +527,52 @@ function compact(n){
   if (n >= 1000) return Math.round(n / 1000) + 'k';
   return String(Math.round(n));
 }
+/* ===== TRANG TIẾT KIỆM =====
+   Tiết kiệm mỗi tháng = Thu nhập − Tổng chi đã ghi (đúng số "Dự kiến để dành" ở trang tháng).
+   Tổng tiết kiệm = cộng các tháng ĐÃ TỚI (đến tháng hiện tại). Tháng sau chỉ hiện dự kiến. */
+function savingsSummary(){
+  var nowK = monthKeyNow(), list = [], total = 0, counted = 0;
+  sortedKeys().forEach(function(k){
+    var x = monthTotalsOf(k), m = S.months[k], save = x.income - x.total, future = k > nowK;
+    list.push({ k: k, income: x.income, spent: x.total, save: save, goal: m.goal || 0, future: future });
+    if (!future) { total += save; counted++; }
+  });
+  return { list: list, total: total, counted: counted, avg: counted ? total / counted : 0 };
+}
+function addMonths(k, n){ var p = k.split('-'); var d = new Date(+p[0], +p[1] - 1 + n, 1); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
 function renderOverview(){
-  var o = overall(), h = '<div class="top"><h1>Tổng quan</h1></div>' + segHtml();
-  h += '<div class="sum"><div class="lbl">Tổng số dư hiện tại</div><div class="big num' + (o.balance < 0 ? ' neg' : '') + '">' + fmt(o.balance) + '</div>';
-  h += '<div class="legend num"><span>Ban đầu <b>' + fmt(o.initial) + '</b></span><span>Thu đến nay <b>+' + fmt(o.income) + '</b></span><span>Đã trả <b>−' + fmt(o.paid) + '</b></span></div>';
-  h += '<div class="grid2"><div class="mini"><div class="lbl">Còn phải trả đến tháng này</div><div class="v num">' + fmt(o.unpaidNow) + '</div></div><div class="mini"><div class="lbl">Sau khi trả hết</div><div class="v num">' + fmt(o.after) + '</div></div></div>';
-  h += '<button class="mini" style="margin-top:10px;text-align:center;font-weight:600;color:#fff" data-act="init-bal">✏️ Sửa số dư ban đầu</button></div>';
+  var sm = savingsSummary(), h = '<div class="top"><h1>Tiết kiệm</h1></div>' + segHtml();
+  h += '<div class="sum"><div class="lbl">Tổng tiết kiệm đến nay</div><div class="big num' + (sm.total < 0 ? ' neg' : '') + '">' + fmt(sm.total) + '</div>';
+  h += '<div class="legend num"><span>Tính <b>' + sm.counted + ' tháng</b></span><span>Trung bình <b>' + fmt(sm.avg) + '/tháng</b></span></div></div>';
 
-  var keys = sortedKeys().slice(-12);
-  if (!ovSel || keys.indexOf(ovSel) < 0) ovSel = keys.indexOf(S.current) >= 0 ? S.current : keys[keys.length - 1];
-  var stats = keys.map(function(k){ return { k: k, x: monthTotalsOf(k) }; });
-  var max = Math.max.apply(null, stats.map(function(z){ return z.x.total; }).concat([1]));
-  h += '<div class="card"><b>Chi tiêu từng tháng</b><div class="chart">' + stats.map(function(z){
-    var hp = z.x.total ? Math.max(4, z.x.total / max * 100) : 4, fp = z.x.total ? z.x.paid / z.x.total * 100 : 0;
-    return '<button class="col' + (z.k === ovSel ? ' sel' : '') + '" data-act="ov-month" data-k="' + z.k + '"><span class="val num">' + compact(z.x.total) + '</span><span class="pillar" style="height:' + hp + '%"><i style="height:' + fp + '%"></i></span></button>';
-  }).join('') + '</div><div class="xl">' + stats.map(function(z){
-    var p = z.k.split('-');
-    return '<div class="' + (z.k === ovSel ? 'sel' : '') + '"><b>T' + parseInt(p[1], 10) + '</b>' + p[0].slice(2) + '</div>';
-  }).join('') + '</div>';
-  h += '<div class="lg"><span><i style="background:var(--brand)"></i>Đã trả</span><span><i style="background:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--line)"></i>Chưa trả</span></div>';
-  var top = stats.slice().sort(function(a, b){ return b.x.total - a.x.total; })[0];
-  var avg = stats.reduce(function(a, z){ return a + z.x.total; }, 0) / (stats.length || 1);
-  h += '<div class="cnt" style="margin-top:8px;font-size:13px;color:var(--muted)">Chi nhiều nhất: <b>' + monthLabel(top.k) + '</b> (' + fmt(top.x.total) + ') · Trung bình ' + fmt(avg) + '/tháng. Bấm vào cột để xem chi tiết.</div></div>';
-
-  var m = S.months[ovSel], x = monthTotalsOf(ovSel), left = x.income - x.total;
-  h += '<div class="card"><b>' + monthLabel(ovSel) + '</b>' +
-    '<div class="drow"><span>Thu nhập</span><b class="num">' + fmt(x.income) + '</b></div>' +
-    '<div class="drow"><span>Tổng chi dự kiến</span><b class="num">' + fmt(x.total) + '</b></div>' +
-    '<div class="drow"><span>Đã trả</span><b class="num">' + fmt(x.paid) + '</b></div>' +
-    '<div class="drow"><span>Chưa trả</span><b class="num">' + fmt(x.unpaid) + '</b></div>' +
-    '<div class="drow"><span>Còn lại (thu − chi)</span><b class="num' + (left < 0 ? ' neg' : '') + '">' + fmt(left) + '</b></div>';
-  var cats = [];
-  m.sections.forEach(function(sc){ sc.cats.forEach(function(c){ var t = catTotal(c); if (t) cats.push({ n: c.name, t: t, p: catPaid(c) }); }); });
-  cats.sort(function(a, b){ return b.t - a.t; });
-  if (cats.length) {
-    var cmax = cats[0].t;
-    h += '<div style="margin-top:12px;font-weight:600">Theo mục</div>' + cats.map(function(c){
-      return '<div class="cbar"><div class="t"><span>' + esc(c.n) + '</span><span class="num">' + fmt(c.t) + ' <small>(đã trả ' + fmt(c.p) + ')</small></span></div><div class="tr" style="width:' + Math.max(6, c.t / cmax * 100) + '%"><i style="width:' + (c.p / c.t * 100) + '%;background:var(--brand)"></i><i style="flex:1;background:var(--brand-soft)"></i></div></div>';
-    }).join('');
+  /* Mục tiêu lớn */
+  var g = S.bigGoal;
+  if (!g || !g.amount) {
+    h += '<button class="goalc" style="width:100%;text-align:center;font-weight:700;color:var(--brand)" data-act="big-goal">🎯 Đặt mục tiêu tiết kiệm lớn<div class="cnt" style="font-weight:500;font-size:13px;color:var(--muted);margin-top:4px">Ví dụ: quỹ 20 triệu mua laptop. App sẽ ước tính mấy tháng nữa đạt.</div></button>';
+  } else {
+    var have = Math.max(0, sm.total), pct = Math.min(100, have / g.amount * 100), remain = g.amount - have;
+    h += '<div class="goalc"><div class="h"><b>🎯 ' + esc(g.name || 'Mục tiêu') + '</b><button class="ibtn" style="padding:6px 10px" data-act="big-goal">Sửa</button></div>';
+    h += '<div class="amt num">' + fmt(have) + ' <small>/ ' + fmt(g.amount) + ' · ' + Math.floor(pct) + '%</small></div><div class="gb"><i style="width:' + pct + '%"></i></div>';
+    if (remain <= 0) h += '<div class="eta">🎉 <b>Đã đạt mục tiêu!</b> Dư ' + fmt(-remain) + '.</div>';
+    else if (sm.avg > 0) {
+      var n = Math.ceil(remain / sm.avg);
+      h += '<div class="eta">Còn thiếu <b>' + fmt(remain) + '</b>. Nếu mỗi tháng để dành như trung bình (' + fmt(sm.avg) + '), khoảng <b>' + n + ' tháng nữa</b> sẽ đạt (≈ <b>' + monthLabel(addMonths(monthKeyNow(), n)).toLowerCase() + '</b>).</div>';
+    } else h += '<div class="eta">Còn thiếu <b>' + fmt(remain) + '</b>. Với mức để dành hiện tại chưa ước tính được thời gian đạt.</div>';
+    h += '</div>';
   }
-  h += '<button class="ibtn primary" style="width:100%;margin-top:14px" data-act="open-month" data-k="' + ovSel + '">Mở ' + monthLabel(ovSel).toLowerCase() + '</button></div>';
-  h += '<div class="cnt" style="margin:10px 4px;font-size:12.5px;color:var(--muted)">Thu nhập chỉ được cộng cho các tháng đã tới. Khoản chưa tick "đã trả" là kế hoạch, chưa bị trừ khỏi số dư.</div>';
+
+  /* Từng tháng */
+  h += '<div style="margin:20px 4px 0;font-weight:700">Từng tháng</div>';
+  sm.list.slice().reverse().forEach(function(r){
+    var rate = r.income > 0 ? Math.round(r.save / r.income * 100) : null, tag;
+    if (r.future) tag = '<span class="gtag mute">Dự kiến, chưa cộng vào tổng</span>';
+    else if (!r.goal) tag = '<span class="gtag mute">Chưa đặt mục tiêu tháng</span>';
+    else if (r.save >= r.goal) tag = '<span class="gtag ok">✅ Đạt mục tiêu ' + fmt(r.goal) + (r.save > r.goal ? ', dư ' + fmt(r.save - r.goal) : '') + '</span>';
+    else tag = '<span class="gtag bad">⚠️ Thiếu ' + fmt(r.goal - r.save) + ' so với mục tiêu ' + fmt(r.goal) + '</span>';
+    h += '<button class="srow' + (r.future ? ' future' : '') + '" data-act="open-month" data-k="' + r.k + '"><span class="m"><b>' + monthLabel(r.k) + (r.future ? ' · chưa tới' : '') + '</b><small class="num">Thu ' + fmt(r.income) + ' − Chi ' + fmt(r.spent) + '</small>' + tag + '</span>' +
+      '<span class="v num ' + (r.save < 0 ? 'neg' : 'pos') + '">' + (r.save > 0 ? '+' : '') + fmt(r.save) + (rate !== null ? '<small>' + rate + '% thu nhập</small>' : '') + '</span></button>';
+  });
+  h += '<div class="cnt" style="margin:12px 4px;font-size:12.5px;color:var(--muted)">Tiết kiệm mỗi tháng = thu nhập − tổng chi đã ghi (đúng số "Dự kiến để dành" ở trang tháng). Tổng chỉ cộng các tháng đã tới; tháng sau hiện mờ và chưa được tính. Bấm vào một tháng để mở.</div>';
   return h;
 }
 function countUp(el, to){
@@ -717,6 +747,18 @@ var actions = {
   'page': function(d){ page = d.p; ovSel = S.current; commit(); window.scrollTo(0, 0); },
   'ov-month': function(d){ ovSel = d.k; render(); },
   'open-month': function(d){ S.current = d.k; page = 'month'; commit(true); window.scrollTo(0, 0); },
+  'big-goal': function(){
+    var g = S.bigGoal || {};
+    openModal({ title: 'Mục tiêu tiết kiệm lớn', fields: [
+      { label: 'Tên mục tiêu', type: 'text', value: g.name || '', placeholder: 'Ví dụ: Mua laptop' },
+      { label: 'Số tiền cần', type: 'money', value: g.amount || '', placeholder: 'Ví dụ 20tr', hint: 'Gõ nhanh: 500k, 20tr' }],
+      onSave: function(v){
+        var n = moneyOrWarn(v[1]); if (n === null) return false;
+        if (!n) { toast('Nhập số tiền mục tiêu'); return false; }
+        S.bigGoal = { name: v[0].trim() || 'Mục tiêu', amount: n }; commit();
+      },
+      onDelete: g.amount ? function(){ delete S.bigGoal; commit(); } : null, deleteMsg: 'Xóa mục tiêu này?' });
+  },
   'init-bal': function(){
     var ib = S.initialBalance || 0;
     openModal({ title: 'Số dư ban đầu', fields: [
