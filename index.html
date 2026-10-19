@@ -501,25 +501,27 @@ function render(anim){
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (anim && !reduce && t.income > 0) countUp(document.getElementById('bigNum'), left);
 }
-/* ===== TỔNG QUAN =====
-   Tổng số dư = Số dư ban đầu + Thu nhập − Các khoản ĐÃ TRẢ (đã tick),
-   chỉ tính các tháng ĐÃ TỚI (đến tháng hiện tại).
-   Tháng tương lai không ảnh hưởng số dư cho đến khi tới tháng đó.
-   Khoản chưa tick chỉ là kế hoạch, chưa trừ vào số dư. */
 function monthTotalsOf(k){
   var m = S.months[k], t = 0, p = 0;
   m.sections.forEach(function(sc){ t += secTotal(sc); p += secPaid(sc); });
   return { total: t, paid: p, unpaid: t - p, income: m.income || 0 };
 }
-function overall(){
-  var nowK = monthKeyNow(), r = { initial: S.initialBalance || 0, income: 0, paid: 0, unpaidNow: 0, futurePaid: 0 };
+/* ===== SỐ DƯ HIỆN TẠI =====
+   Số dư = Số dư ban đầu + Tiết kiệm các tháng TRƯỚC (thu − tổng chi)
+         + Tiền chưa tiêu tháng này (thu nhập tháng này − các khoản ĐÃ TRẢ).
+   Tháng hiện tại tính theo "đã trả" chứ không theo "dự kiến để dành",
+   nếu không sẽ bị cộng trùng thu nhập tháng này.
+   Sau khi trả hết khoản chưa trả: Số dư − chưa trả = Số dư ban đầu + Tổng tiết kiệm. */
+function balanceNow(){
+  var nowK = monthKeyNow(), r = { initial: S.initialBalance || 0, past: 0, pastCount: 0, curIncome: 0, curPaid: 0, curUnpaid: 0 };
   sortedKeys().forEach(function(k){
     var x = monthTotalsOf(k);
-    if (k <= nowK) { r.income += x.income; r.paid += x.paid; r.unpaidNow += x.unpaid; }
-    else r.futurePaid += x.paid;
+    if (k < nowK) { r.past += x.income - x.total; r.pastCount++; }
+    else if (k === nowK) { r.curIncome = x.income; r.curPaid = x.paid; r.curUnpaid = x.unpaid; }
   });
-  r.balance = r.initial + r.income - r.paid;
-  r.after = r.balance - r.unpaidNow;
+  r.curLeft = r.curIncome - r.curPaid;
+  r.balance = r.initial + r.past + r.curLeft;
+  r.after = r.balance - r.curUnpaid;
   return r;
 }
 function compact(n){
@@ -544,6 +546,16 @@ function renderOverview(){
   var sm = savingsSummary(), h = '<div class="top"><h1>Tiết kiệm</h1></div>' + segHtml();
   h += '<div class="sum"><div class="lbl">Tổng tiết kiệm đến nay</div><div class="big num' + (sm.total < 0 ? ' neg' : '') + '">' + fmt(sm.total) + '</div>';
   h += '<div class="legend num"><span>Tính <b>' + sm.counted + ' tháng</b></span><span>Trung bình <b>' + fmt(sm.avg) + '/tháng</b></span></div></div>';
+
+  /* Số dư hiện tại */
+  var b = balanceNow();
+  h += '<div class="card"><b>💵 Số dư hiện tại</b>';
+  h += '<div class="num" style="font-size:26px;font-weight:800;margin:4px 0 8px' + (b.balance < 0 ? ';color:var(--bad)' : '') + '">' + fmt(b.balance) + '</div>';
+  h += '<button class="drow" style="width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:7px 0;text-align:left" data-act="init-bal"><span>Số dư ban đầu <small style="color:var(--brand)">(sửa)</small></span><b class="num' + (b.initial < 0 ? ' neg' : '') + '">' + fmt(b.initial) + '</b></button>';
+  h += '<div class="drow"><span>Tiết kiệm ' + b.pastCount + ' tháng trước</span><b class="num' + (b.past < 0 ? ' neg' : '') + '">' + fmt(b.past) + '</b></div>';
+  h += '<div class="drow"><span>Chưa tiêu tháng này<br><small style="color:var(--muted)">thu ' + fmt(b.curIncome) + ' − đã trả ' + fmt(b.curPaid) + '</small></span><b class="num' + (b.curLeft < 0 ? ' neg' : '') + '">' + fmt(b.curLeft) + '</b></div>';
+  if (b.curUnpaid > 0) h += '<div class="cnt num" style="margin-top:8px;font-size:13px;color:var(--muted)">Trong đó ' + fmt(b.curUnpaid) + ' đã lên kế hoạch nhưng chưa trả. Trả hết thì còn <b style="color:var(--ink)">' + fmt(b.after) + '</b>.</div>';
+  h += '</div>';
 
   /* Mục tiêu lớn */
   var g = S.bigGoal;
