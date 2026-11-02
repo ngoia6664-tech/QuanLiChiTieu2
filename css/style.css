@@ -1,6 +1,7 @@
 /* =====================================================================
-   CHI TIÊU PRO - MODERN FINTECH DESIGN SYSTEM
-   Hệ thống biến toàn cục, Chế độ Sáng / Tối, Nền Cực Quang biến sắc
+   CHI TIÊU PRO - CYBER EDITION
+   Thống nhất 1 màu chủ đạo: Cyber (Electric Cyan & Neon Accents)
+   Hỗ trợ 2 chế độ Sáng / Tối linh hoạt
    ===================================================================== */
 :root {
   --font-main: "Be Vietnam Pro", system-ui, -apple-system, sans-serif;
@@ -12,12 +13,12 @@
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Màu cực quang biến đổi động theo trục cuộn chuột */
-  --aur-c1: #8B5CF6;
-  --aur-c2: #EC4899;
-  --aur-c3: #3B82F6;
+  /* Màu chủ đạo thống nhất: Cyber */
+  --aur-c1: #0EA5E9;
+  --aur-c2: #38BDF8;
+  --aur-c3: #0284C7;
   --brand: var(--aur-c1);
-  --brand-gradient: linear-gradient(135deg, var(--aur-c1), var(--aur-c2));
+  --brand-gradient: linear-gradient(135deg, #0284C7 0%, #0EA5E9 50%, #38BDF8 100%);
 
   --ok: #10B981;
   --ok-soft: rgba(16, 185, 129, 0.16);
@@ -31,56 +32,56 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* ========================== CHẾ ĐỘ TỐI (DARK MODE) ========================== */
+/* ========================== CYBER CHẾ ĐỘ TỐI (DARK MODE) ========================== */
 [data-mode="dark"], :root:not([data-mode="light"]) {
-  --bg: #070611;
-  --bg-deep: #030208;
-  --card: rgba(22, 18, 44, 0.75);
-  --card-solid: #16122E;
-  --ink: #FAF5FF;
-  --ink-secondary: #C4B5FD;
-  --muted: #8E8AA8;
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(168, 85, 247, 0.5);
-  --glass: rgba(18, 14, 38, 0.82);
-  --brand-glow: rgba(168, 85, 247, 0.6);
-  --brand-soft: rgba(168, 85, 247, 0.16);
-  --on-brand: #FFFFFF;
-  --card-3d-bg: linear-gradient(145deg, #1C1335 0%, #130B24 50%, #0B0616 100%);
-  --card-3d-chip: #F59E0B;
-  --neon-border: #C084FC;
+  --bg: #070913;
+  --bg-deep: #030408;
+  --card: rgba(14, 21, 38, 0.78);
+  --card-solid: #0F172A;
+  --ink: #F0FDF4;
+  --ink-secondary: #38BDF8;
+  --muted: #64748B;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(14, 165, 233, 0.5);
+  --glass: rgba(14, 21, 38, 0.82);
+  --brand-glow: rgba(14, 165, 233, 0.6);
+  --brand-soft: rgba(14, 165, 233, 0.16);
+  --on-brand: #082F49;
+  --card-3d-bg: linear-gradient(145deg, #0B2545 0%, #09192F 50%, #040D1A 100%);
+  --card-3d-chip: #38BDF8;
+  --neon-border: #38BDF8;
   --canvas-opacity: 1;
-  --aur-opacity: 0.85;
-  --sh-1: 0 4px 20px -4px rgba(0, 0, 0, 0.5);
-  --sh-2: 0 16px 36px -10px rgba(0, 0, 0, 0.6);
+  --aur-opacity: 0.88;
+  --sh-1: 0 4px 20px -4px rgba(0, 0, 0, 0.55);
+  --sh-2: 0 16px 36px -10px rgba(0, 0, 0, 0.65);
 }
 
-/* ========================== CHẾ ĐỘ SÁNG (LIGHT MODE) ========================== */
+/* ========================== CYBER CHẾ ĐỘ SÁNG (LIGHT MODE) ========================== */
 [data-mode="light"] {
-  --bg: #F7F5FD;
-  --bg-deep: #EBE6F8;
-  --card: rgba(255, 255, 255, 0.88);
+  --bg: #F0F9FF;
+  --bg-deep: #E0F2FE;
+  --card: rgba(255, 255, 255, 0.9);
   --card-solid: #FFFFFF;
-  --ink: #1E1B4B;
-  --ink-secondary: #6B21A8;
-  --muted: #6B7280;
-  --line: rgba(168, 85, 247, 0.16);
-  --line-strong: rgba(168, 85, 247, 0.45);
-  --glass: rgba(255, 255, 255, 0.85);
-  --brand-glow: rgba(124, 58, 237, 0.35);
-  --brand-soft: rgba(124, 58, 237, 0.1);
+  --ink: #0C4A6E;
+  --ink-secondary: #0284C7;
+  --muted: #64748B;
+  --line: rgba(14, 165, 233, 0.16);
+  --line-strong: rgba(14, 165, 233, 0.45);
+  --glass: rgba(255, 255, 255, 0.88);
+  --brand-glow: rgba(14, 165, 233, 0.35);
+  --brand-soft: rgba(14, 165, 233, 0.1);
   --on-brand: #FFFFFF;
-  --card-3d-bg: linear-gradient(145deg, #3B0764 0%, #6B21A8 60%, #9333EA 100%);
-  --card-3d-chip: #F59E0B;
-  --neon-border: #C084FC;
+  --card-3d-bg: linear-gradient(145deg, #082F49 0%, #0C4A6E 60%, #0284C7 100%);
+  --card-3d-chip: #38BDF8;
+  --neon-border: #38BDF8;
   --canvas-opacity: 0.15;
   --aur-opacity: 0.6;
-  --sh-1: 0 4px 18px -4px rgba(124, 58, 237, 0.08);
-  --sh-2: 0 16px 32px -8px rgba(124, 58, 237, 0.15);
+  --sh-1: 0 4px 18px -4px rgba(14, 165, 233, 0.08);
+  --sh-2: 0 16px 32px -8px rgba(14, 165, 233, 0.16);
 }
 
 /* =====================================================================
-   RESET & CỐ ĐỊNH BACKGROUND (ĐẢM BẢO KHÔNG BỊ TRẮNG LỘ NỀN)
+   RESET & CỐ ĐỊNH BACKGROUND
    ===================================================================== */
 * {
   box-sizing: border-box;
@@ -145,7 +146,6 @@ body {
 }
 [data-mode="light"] .stardust-overlay { opacity: 0.015; }
 
-/* Thanh đo tiến trình cuộn mượt ở đỉnh */
 .scroll-tracker {
   position: fixed;
   top: 0;
@@ -158,7 +158,6 @@ body {
   transition: width 0.08s linear;
 }
 
-/* Viên HUD mini chỉ báo màu sắc ở góc dưới */
 .color-hud {
   position: fixed;
   bottom: 84px;
@@ -231,21 +230,18 @@ body {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.35); opacity: 0.6; }
 }
-.dynamic-island .title {
-  font-size: 13px;
-  font-weight: 700;
-}
+.dynamic-island .title { font-size: 13px; font-weight: 700; }
 .dynamic-island .badge {
   font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: var(--radius-pill);
   background: var(--aur-c1);
-  color: #FFFFFF;
+  color: #082F49;
 }
 
 /* =====================================================================
-   MAIN WRAPPER
+   MAIN WRAPPER & BASE BUTTONS
    ===================================================================== */
 .wrap {
   max-width: 540px;
@@ -254,7 +250,6 @@ body {
 }
 .num { font-variant-numeric: tabular-nums; }
 
-/* Buttons & Ripple */
 button {
   font: inherit;
   color: inherit;
@@ -278,7 +273,6 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 @keyframes rip { to { transform: scale(1); opacity: 0; } }
 
-/* Entrance stagger */
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
@@ -292,7 +286,7 @@ button:active:not(:disabled) { scale: 0.96; }
 .enter > :nth-child(n+6) { animation-delay: 0.28s; }
 
 /* =====================================================================
-   KHỐI 1: HEADER & MONTH PICKER CAPSULE
+   KHỐI 1: HEADER & MONTH CAPSULE
    ===================================================================== */
 .top-header {
   display: flex;
@@ -326,7 +320,7 @@ button:active:not(:disabled) { scale: 0.96; }
 .sel-capsule {
   appearance: none;
   -webkit-appearance: none;
-  background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%238E8AA8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2338BDF8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   padding: 8px 30px 8px 14px;
@@ -356,14 +350,15 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 .btn-icon.primary {
   background: var(--brand-gradient);
-  color: #FFFFFF;
+  color: #082F49;
   border-color: transparent;
   font-size: 20px;
+  font-weight: 800;
   box-shadow: 0 8px 18px -4px var(--aur-c1);
 }
 
 /* =====================================================================
-   KHỐI 2: 3D HOLOGRAPHIC CARD (VÍ TIỀN TRUNG TÂM)
+   KHỐI 2: 3D HOLOGRAPHIC CARD
    ===================================================================== */
 .card-3d-scene {
   perspective: 1200px;
@@ -384,7 +379,7 @@ button:active:not(:disabled) { scale: 0.96; }
     from 0deg,
     transparent 0%,
     transparent 70%,
-    var(--aur-c1) 85%,
+    var(--neon-border) 85%,
     #FFFFFF 92%,
     transparent 100%
   );
@@ -458,7 +453,7 @@ button:active:not(:disabled) { scale: 0.96; }
   width: 44px;
   height: 33px;
   border-radius: 6px;
-  background: linear-gradient(135deg, var(--card-3d-chip), #92700C);
+  background: linear-gradient(135deg, var(--card-3d-chip), #0369A1);
   box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 3px 8px rgba(0,0,0,0.5);
   position: relative;
   overflow: hidden;
@@ -475,7 +470,7 @@ button:active:not(:disabled) { scale: 0.96; }
   font-size: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
+  color: #38BDF8;
   display: flex;
   align-items: center;
   gap: 7px;
@@ -512,7 +507,7 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 .card-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--aur-c1), var(--aur-c2));
+  background: linear-gradient(90deg, #0284C7, #0EA5E9, #38BDF8);
   border-radius: 99px;
   box-shadow: 0 0 12px var(--aur-c1);
   position: relative;
@@ -562,7 +557,6 @@ button:active:not(:disabled) { scale: 0.96; }
   backdrop-filter: blur(10px);
 }
 
-/* 3 Ô bấm chỉ số nhanh dưới thẻ (Quick-metrics) */
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -583,7 +577,7 @@ button:active:not(:disabled) { scale: 0.96; }
 .metric-box .v { font-size: 15px; font-weight: 800; color: var(--ink); margin-top: 2px; }
 
 /* =====================================================================
-   KHỐI 3: SMART CASHFLOW & GỢI Ý CHI TIÊU
+   KHỐI 3: SMART CASHFLOW & GỢI Ý
    ===================================================================== */
 .cashflow-card {
   background: var(--card);
@@ -635,7 +629,7 @@ button:active:not(:disabled) { scale: 0.96; }
 .insight-box.ok { background: var(--ok-soft); border-left-color: var(--ok); color: var(--ok); }
 
 /* =====================================================================
-   KHỐI 4: BENTO GRID PHÂN BỔ NGÂN SÁCH (BUDGET OVERVIEW)
+   KHỐI 4: BENTO GRID PHÂN BỔ NGÂN SÁCH
    ===================================================================== */
 .section-head {
   display: flex;
@@ -693,7 +687,7 @@ button:active:not(:disabled) { scale: 0.96; }
   pointer-events: none;
   z-index: 1;
 }
-.bento-card:hover::before { opacity: 0.3; }
+.bento-card:hover::before { opacity: 0.35; }
 
 .bento-inner { position: relative; z-index: 2; }
 .bento-card .b-top {
@@ -730,7 +724,7 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 
 /* =====================================================================
-   KHỐI 5: INTERACTIVE CHECKLIST (CHI TIẾT KHOẢN CHI)
+   KHỐI 5: INTERACTIVE CHECKLIST
    ===================================================================== */
 .cat {
   background: var(--card);
@@ -787,7 +781,7 @@ button:active:not(:disabled) { scale: 0.96; }
 .bar i {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--aur-c1), #8F7BFF);
+  background: linear-gradient(90deg, #0284C7, #38BDF8);
   border-radius: 3px;
   transition: width 0.6s var(--ease);
 }
@@ -804,7 +798,6 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 .item:hover { background: rgba(255,255,255,0.03); }
 
-/* Checkbox Pop & Burst Ring */
 .chk {
   flex: none;
   width: 28px;
@@ -823,11 +816,11 @@ button:active:not(:disabled) { scale: 0.96; }
   overflow: visible;
 }
 .chk.on {
-  background: linear-gradient(135deg, #10B981, #34D399);
+  background: linear-gradient(135deg, #0284C7, #38BDF8);
   border-color: transparent;
-  color: #FFFFFF;
+  color: #082F49;
   opacity: 1;
-  box-shadow: 0 4px 14px -2px #10B981;
+  box-shadow: 0 4px 14px -2px #0EA5E9;
 }
 .chk.pop { animation: pop 0.4s var(--spring); }
 .chk.pop::after {
@@ -835,7 +828,7 @@ button:active:not(:disabled) { scale: 0.96; }
   position: absolute;
   inset: -3px;
   border-radius: 12px;
-  border: 2px solid #34D399;
+  border: 2px solid #38BDF8;
   pointer-events: none;
   animation: burst 0.55s var(--ease) forwards;
 }
@@ -890,7 +883,7 @@ button:active:not(:disabled) { scale: 0.96; }
 }
 
 /* =====================================================================
-   KHỐI 6: FLOATING BOTTOM DOCK KÍNH MỜ
+   KHỐI 6: FLOATING BOTTOM DOCK
    ===================================================================== */
 .dock {
   position: fixed;
@@ -925,7 +918,7 @@ button:active:not(:disabled) { scale: 0.96; }
   font-size: 13.5px;
 }
 .dock button.on {
-  color: #FFFFFF;
+  color: #082F49;
   background: var(--brand-gradient);
   box-shadow: 0 8px 20px -6px var(--aur-c1);
 }
@@ -1017,12 +1010,12 @@ button:active:not(:disabled) { scale: 0.96; }
 .btns .save {
   background: var(--brand-gradient);
   border-color: transparent;
-  color: #FFFFFF;
+  color: #082F49;
+  font-weight: 800;
   box-shadow: 0 10px 20px -6px var(--aur-c1);
 }
 .btns .del { color: var(--bad); flex: 0 0 auto; }
 
-/* Toast */
 .toast {
   position: fixed;
   left: 50%;
@@ -1045,7 +1038,6 @@ button:active:not(:disabled) { scale: 0.96; }
   100% { opacity: 0; translate: 0 8px; }
 }
 
-/* Canvas Confetti */
 #confettiCanvas {
   position: fixed;
   inset: 0;

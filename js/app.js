@@ -288,7 +288,7 @@ function render(anim){
   h += '<div class="card-3d-glare" id="cardGlare"></div>';
   h += '<div class="card-inner">';
 
-  h += '<div class="card-top"><div class="card-chip"></div><div class="card-tag"><span class="dot"></span> CHI TIÊU BLACK</div></div>';
+  h += '<div class="card-top"><div class="card-chip"></div><div class="card-tag"><span class="dot"></span> CHI TIÊU CYBER</div></div>';
 
   h += '<div class="card-balance-block">';
   h += '<div class="card-balance-lbl">' + (t.inflow > 0 ? 'Dự kiến để dành' : 'Chưa nhập thu nhập') + ' · ' + esc(monthLabel(S.current)) + '</div>';
@@ -783,10 +783,10 @@ const hudBall = document.getElementById('hudBall');
 const hudText = document.getElementById('hudText');
 
 const colorPhases = [
-  { p: 0.0, c1: '#8B5CF6', c2: '#EC4899', c3: '#3B82F6', name: 'Tím Ngân Hà' },
-  { p: 0.35, c1: '#06B6D4', c2: '#10B981', c3: '#3B82F6', name: 'Xanh Cyan & Ngọc Lục' },
-  { p: 0.65, c1: '#F59E0B', c2: '#F97316', c3: '#EF4444', name: 'Hoàng Hôn & Hổ Phách' },
-  { p: 1.0, c1: '#EC4899', c2: '#F43F5E', c3: '#8B5CF6', name: 'Hồng Neon Cyber' }
+  { p: 0.0, c1: '#0EA5E9', c2: '#38BDF8', c3: '#0284C7', name: 'Cyber Electric Cyan' },
+  { p: 0.35, c1: '#06B6D4', c2: '#10B981', c3: '#0EA5E9', name: 'Cyber Emerald Matrix' },
+  { p: 0.65, c1: '#6366F1', c2: '#A855F7', c3: '#EC4899', name: 'Cyberpunk Neon Violet' },
+  { p: 1.0, c1: '#EC4899', c2: '#F43F5E', c3: '#0EA5E9', name: 'Cyberpunk Tokyo Pink' }
 ];
 
 function interpolateColor(color1, color2, factor) {
