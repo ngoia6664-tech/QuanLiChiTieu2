@@ -104,6 +104,7 @@ function cloneForNext(src){
   const d = JSON.parse(JSON.stringify(src));
   d.note = '';
   d.extras = [];
+  if (d.incomeSrc === 'giasu') { d.income = 0; d.incomeSrc = 'manual'; } /* lương gia sư tháng cũ không áp cho tháng mới */
   d.sections.forEach(function(sec){
     sec.id = uid();
     sec.cats.forEach(function(c){
@@ -153,15 +154,18 @@ function secBudget(s){
   if (!s.cats.length || !s.cats.every(function(c){ return c.budget > 0; })) return 0;
   return s.cats.reduce(function(a, c){ return a + c.budget; }, 0);
 }
+/* Kế hoạch chi nếu dùng hết ngân sách: mỗi mục lấy max(ngân sách, đã dùng); đề mục lấy max(ngân sách đề mục, tổng các mục) để không tính trùng */
+function catPlan(c){ return Math.max(c.budget || 0, catTotal(c)); }
+function secPlan(s){ return Math.max(s.budget || 0, s.cats.reduce(function(a, c){ return a + catPlan(c); }, 0)); }
 function extraTotal(m){ return extrasOf(m).reduce(function(a, x){ return a + (x.amount || 0); }, 0); }
 function extraRecv(m){ return extrasOf(m).reduce(function(a, x){ return a + (x.received ? (x.amount || 0) : 0); }, 0); }
 
 function totals(){
   const m = M();
-  let t = 0, p = 0;
-  m.sections.forEach(function(s){ t += secTotal(s); p += secPaid(s); });
+  let t = 0, p = 0, pl = 0;
+  m.sections.forEach(function(s){ t += secTotal(s); p += secPaid(s); pl += secPlan(s); });
   const inc = m.income || 0, ex = extraTotal(m);
-  return { total: t, paid: p, unpaid: t - p, income: inc, extra: ex, inflow: inc + ex, goal: m.goal || 0 };
+  return { total: t, paid: p, unpaid: t - p, plan: pl, income: inc, extra: ex, inflow: inc + ex, goal: m.goal || 0 };
 }
 
 function dateLabel(d){ if (!d) return ''; const p = d.split('-'); return p[2] + '/' + p[1]; }
@@ -260,6 +264,7 @@ function render(anim){
   const m = M(), t = totals();
   const keys = sortedKeys();
   const left = t.inflow - t.total;
+  const leftMax = t.inflow - t.plan;
   const free = t.inflow - t.goal - t.total;
   const percentSaved = t.inflow > 0 ? Math.min(100, Math.max(0, Math.round((left / t.inflow) * 100))) : 0;
 
@@ -293,6 +298,7 @@ function render(anim){
   h += '<div class="card-balance-block">';
   h += '<div class="card-balance-lbl">' + (t.inflow > 0 ? 'Dự kiến để dành' : 'Chưa nhập thu nhập') + ' · ' + esc(monthLabel(S.current)) + '</div>';
   h += '<div class="card-balance-val num' + (left < 0 ? ' neg' : '') + '" id="bigNum">' + (t.inflow > 0 ? fmt(left) : '—') + '</div>';
+  if (t.inflow > 0 && t.plan > t.total) h += '<div class="num" style="font-size:12px;opacity:.9">Nếu chi hết ngân sách: <b' + (leftMax < 0 ? ' style="color:#FFB4AB"' : '') + '>' + fmt(leftMax) + '</b></div>';
   h += '<div class="card-progress-bar"><div class="card-progress-fill" style="width:' + percentSaved + '%"></div></div>';
   h += '</div>';
 
@@ -310,7 +316,7 @@ function render(anim){
 
   /* 3 Thẻ chỉ số nhanh (Quick-Metrics) */
   h += '<div class="metrics-grid">';
-  h += '<button class="metric-box" data-act="edit-income"><div class="lbl">Thu nhập (Lương)</div><div class="v num">' + (t.income > 0 ? fmt(t.income) : '+ Nhập') + '</div></button>';
+  h += '<button class="metric-box" data-act="edit-income"><div class="lbl">Thu nhập (Lương)' + (m.incomeSrc === 'giasu' ? ' · Sổ gia sư' : '') + '</div><div class="v num">' + (t.income > 0 ? fmt(t.income) : '+ Nhập') + '</div></button>';
   h += '<button class="metric-box" data-act="add-extra"><div class="lbl">Tiền thêm</div><div class="v num" style="color:var(--ok)">' + (t.extra > 0 ? '+' + fmt(t.extra) : '+ Thêm') + '</div></button>';
   h += '<button class="metric-box" data-act="edit-goal"><div class="lbl">Mục tiêu tháng</div><div class="v num">' + (t.goal > 0 ? fmt(t.goal) : '+ Đặt') + '</div></button>';
   h += '</div>';
@@ -331,6 +337,10 @@ function render(anim){
     else if (t.goal > 0 && left < t.goal) h += '<div class="insight-box warn num">Đang thiếu ' + fmt(t.goal - left) + ' để đạt mục tiêu tiết kiệm ' + fmt(t.goal) + '.</div>';
     else if (t.goal > 0) h += '<div class="insight-box ok num">Xuất sắc! Đã đạt mục tiêu tiết kiệm, dư thêm ' + fmt(left - t.goal) + '.</div>';
 
+    if (t.plan > t.total) {
+      const cls = leftMax < 0 ? ' bad' : (t.goal > 0 && leftMax < t.goal ? ' warn' : '');
+      h += '<div class="insight-box num' + cls + '" style="margin-top:8px">Nếu chi hết 100% ngân sách (' + fmt(t.plan) + '), để dành được ' + fmt(leftMax) + (leftMax < 0 ? ' — vượt thu nhập' : '') + '.</div>';
+    }
     if (t.goal > 0 && free > 0) {
       const dl = daysLeft();
       h += '<div class="insight-box" style="margin-top:8px">💡 Còn chi thêm được tối đa <b class="num">' + fmt(free) + '</b>' + (dl > 0 ? ' (khoảng <b class="num">' + fmt(free / dl) + '/ngày</b> trong ' + dl + ' ngày còn lại)' : '') + '.</div>';
@@ -386,7 +396,8 @@ function render(anim){
       const ct = catTotal(c), cb = c.budget || 0, cover = cb > 0 && ct > cb;
       h += '<div style="padding:8px 14px 4px;display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);background:rgba(255,255,255,0.015)">';
       h += '<div style="font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px"><span>' + iconFor(c.name) + '</span><span>' + esc(c.name) + '</span></div>';
-      h += '<div style="display:flex;align-items:center;gap:6px"><span class="num" style="font-size:13px;font-weight:700' + (cover ? ';color:var(--bad)' : '') + '">' + fmt(ct) + '</span><button class="link" style="padding:2px 6px;font-size:12px" data-act="edit-cat" data-s="' + s.id + '" data-c="' + c.id + '">Sửa</button></div></div>';
+      h += '<div style="display:flex;align-items:center;gap:6px"><span class="num" style="font-size:13px;font-weight:700' + (cover ? ';color:var(--bad)' : '') + '">' + fmt(ct) + (cb > 0 ? '<span style="color:var(--muted);font-weight:500"> / ' + fmt(cb) + '</span>' : '') + '</span><button class="link" style="padding:2px 6px;font-size:12px" data-act="edit-cat" data-s="' + s.id + '" data-c="' + c.id + '">Sửa</button></div></div>';
+      if (cb > 0) h += '<div style="padding:2px 14px 6px"><div class="bar ' + (cover ? 'bad' : '') + '"><i style="width:' + pct(ct, cb) + '%"></i></div></div>';
 
       c.items.forEach(function(it){
         h += '<div class="item">';
@@ -546,8 +557,21 @@ const actions = {
   },
   'edit-income': function(){
     openModal({ title: 'Thu nhập ' + monthLabel(S.current).toLowerCase(), saveLabel: 'Lưu',
-      fields: [{ label: 'Tổng thu nhập tháng này', type: 'money', value: M().income || '', placeholder: 'Ví dụ 15tr hoặc 15000000', hint: 'Gõ nhanh: 500k, 1.5tr, 15tr' }],
-      onSave: function(v){ const n = moneyOrWarn(v[0]); if (n === null) return false; M().income = n; commit(); } });
+      fields: [
+        { label: 'Tổng thu nhập tháng này', type: 'money', value: M().income || '', placeholder: 'Ví dụ 15tr hoặc 15000000', hint: M().incomeSrc === 'giasu' ? 'Đang lấy từ Sổ gia sư (chỉ tính tiền đã thu).' : 'Gõ nhanh: 500k, 1.5tr, 15tr' },
+        { label: 'Hoặc dán mã từ Sổ gia sư', type: 'text', placeholder: 'GS|2026-11|3000000', hint: 'Vào Sổ gia sư › Lương › Sao chép mã. Có mã thì ưu tiên mã.' }],
+      onSave: function(v){
+        const code = v[1].trim();
+        if (code) {
+          const g = code.match(/^GS\|(\d{4}-\d{2})\|(\d+)$/);
+          if (!g) { toast('Mã không đúng định dạng'); return false; }
+          if (g[1] !== S.current) { toast('Mã của ' + monthLabel(g[1]) + ', đang xem ' + monthLabel(S.current)); return false; }
+          M().income = parseInt(g[2], 10); M().incomeSrc = 'giasu'; commit(); return;
+        }
+        const n = moneyOrWarn(v[0]); if (n === null) return false;
+        if (n !== (M().income || 0)) { M().income = n; M().incomeSrc = 'manual'; }
+        commit();
+      } });
   },
   'add-extra': function(){
     openModal({ title: 'Thêm tiền thêm ' + monthLabel(S.current).toLowerCase(), fields: [
