@@ -559,13 +559,14 @@ const actions = {
     openModal({ title: 'Thu nhập ' + monthLabel(S.current).toLowerCase(), saveLabel: 'Lưu',
       fields: [
         { label: 'Tổng thu nhập tháng này', type: 'money', value: M().income || '', placeholder: 'Ví dụ 15tr hoặc 15000000', hint: M().incomeSrc === 'giasu' ? 'Đang lấy từ Sổ gia sư (chỉ tính tiền đã thu).' : 'Gõ nhanh: 500k, 1.5tr, 15tr' },
-        { label: 'Hoặc dán mã từ Sổ gia sư', type: 'text', placeholder: 'GS|2026-11|3000000', hint: 'Vào Sổ gia sư › Lương › Sao chép mã. Có mã thì ưu tiên mã.' }],
+        { label: 'Hoặc dán mã từ Sổ gia sư', type: 'text', placeholder: 'GS|2026-11|3000000', hint: 'Dùng mã lương ' + monthLabel(addMonths(S.current, -1)) + ' (Sổ gia sư › Lương › Sao chép mã). Có mã thì ưu tiên mã.' }],
       onSave: function(v){
         const code = v[1].trim();
         if (code) {
           const g = code.match(/^GS\|(\d{4}-\d{2})\|(\d+)$/);
           if (!g) { toast('Mã không đúng định dạng'); return false; }
-          if (g[1] !== S.current) { toast('Mã của ' + monthLabel(g[1]) + ', đang xem ' + monthLabel(S.current)); return false; }
+          const need = addMonths(S.current, -1); /* lương dạy tháng trước, nhận và tiêu ở tháng này */
+          if (g[1] !== need) { toast('Cần mã ' + monthLabel(need) + ' (lương nhận ở ' + monthLabel(S.current) + '), mã này là ' + monthLabel(g[1])); return false; }
           M().income = parseInt(g[2], 10); M().incomeSrc = 'giasu'; commit(); return;
         }
         const n = moneyOrWarn(v[0]); if (n === null) return false;
