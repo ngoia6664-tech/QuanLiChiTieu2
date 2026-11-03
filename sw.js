@@ -1,6 +1,6 @@
 /* Service worker: lưu đệm các file của app để mở được khi không có mạng.
    Mỗi lần sửa file nên tăng số phiên bản CACHE để máy người dùng tải bản mới. */
-const CACHE = 'chitieu-v7';
+const CACHE = 'chitieu-v5';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'css/style.css', 'js/app.js'];
 /* Cài đặt: tải sẵn các file vào cache */
 self.addEventListener('install', function(e){
